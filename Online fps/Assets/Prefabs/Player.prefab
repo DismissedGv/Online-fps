@@ -163,7 +163,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9006926750815824}
   - component: {fileID: 8863513755946854349}
-  - component: {fileID: 3070930831664059079}
   - component: {fileID: 5828017496842251415}
   m_Layer: 0
   m_Name: Camera
@@ -238,14 +237,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &3070930831664059079
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6612874534122951152}
-  m_Enabled: 1
 --- !u!114 &5828017496842251415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,11 +292,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4534088740920418913}
-  - component: {fileID: 6755098664622836732}
-  - component: {fileID: 5278955426992993475}
   - component: {fileID: 1284414360932974788}
-  - component: {fileID: 189946913689419917}
-  - component: {fileID: 2645880515351277116}
+  - component: {fileID: 6755098664622836732}
+  - component: {fileID: -420332558662411135}
+  - component: {fileID: 5278955426992993475}
+  - component: {fileID: -3774991763145212629}
+  - component: {fileID: 3365362491410434111}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -332,6 +324,27 @@ Transform:
   - {fileID: 65155452474973310}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -84.156, z: 0}
+--- !u!114 &1284414360932974788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454261071369773655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1691652250
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &6755098664622836732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,11 +363,27 @@ MonoBehaviour:
   jumpCooldown: 0.25
   airMultiplier: 0.4
   jumpKey: 32
+  positionRange: 5
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1024
   orientation: {fileID: 2968728484439245767}
+--- !u!114 &-420332558662411135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454261071369773655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19b0b29cc9eb91247aa8342a9b8c01a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootKey: 323
+  bullet: {fileID: 6739854906041641331, guid: 812b7a4548c6e354f94003545b30d3bc, type: 3}
+  shootTransform: {fileID: 4534088740920418913}
 --- !u!54 &5278955426992993475
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -382,7 +411,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1284414360932974788
+--- !u!114 &-3774991763145212629
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -391,29 +420,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8454261071369773655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &189946913689419917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8454261071369773655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
@@ -432,7 +442,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &2645880515351277116
+--- !u!114 &3365362491410434111
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

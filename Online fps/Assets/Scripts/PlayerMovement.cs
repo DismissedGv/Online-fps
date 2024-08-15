@@ -13,10 +13,12 @@ public class PlayerMovement : NetworkBehaviour
     public float airMultiplier;
     bool readyToJump = true;
 
+
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
 
     [Header("Movement")]
+    [SerializeField] private float positionRange = 5;
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
@@ -42,15 +44,18 @@ public class PlayerMovement : NetworkBehaviour
         MovePlayer();
     }
 
+    public override void OnNetworkSpawn()
+    {
+        UpdatePositionServerRpc();
+    }
+
     private void Update()
     {
+        if (!IsOwner) return;
         //ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
-        if(IsLocalPlayer)
-        {
-            MyInput();
-        }
+        MyInput();
         
         SpeedControl();
 
@@ -116,5 +121,12 @@ public class PlayerMovement : NetworkBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdatePositionServerRpc()
+    {
+        transform.position = new Vector3 (Random.Range(positionRange, -positionRange), 0, Random.Range(positionRange, -positionRange));
+        transform.rotation = new Quaternion(0, Random.Range(0,180), 0, 0);
     }
 }

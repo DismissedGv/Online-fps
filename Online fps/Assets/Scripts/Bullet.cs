@@ -1,9 +1,12 @@
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
+    public Shoot parent;
     [SerializeField] private float shootForce;
     private Rigidbody rb;
 
@@ -11,6 +14,7 @@ public class Bullet : MonoBehaviour
     {
         //Reference
         rb = GetComponent<Rigidbody>();
+        Destroy(gameObject, 3.5f);
     }
 
     void Update()
@@ -21,6 +25,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject);
+        if (!IsOwner) return;
+        parent.DestroyServerRpc();
     }
 }
