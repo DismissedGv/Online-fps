@@ -1,19 +1,27 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NetworkManagerUI : MonoBehaviour
 {
-    [SerializeField] NetworkManager networkManager;
-    private void OnGUI()
+    [SerializeField] private Button joinButton;
+    [SerializeField] private Button hostButton;
+    [SerializeField] private Button quitButton;
+    private void Awake()
     {
-        if (GUILayout.Button("Host"))
+        hostButton.onClick.AddListener(() =>
         {
-            networkManager.StartHost();
-        }
+            NetworkManager.Singleton.StartHost();
+        });
 
-        if (GUILayout.Button("Join"))
+        joinButton.onClick.AddListener(() =>
         {
-            networkManager.StartClient();
-        }
+            NetworkManager.Singleton.StartClient();
+        });
+
+        quitButton.onClick.AddListener(() =>
+        {
+            Application.Quit();
+        });
     }
 }
