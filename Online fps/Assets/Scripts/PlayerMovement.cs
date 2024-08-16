@@ -72,14 +72,14 @@ public class PlayerMovement : NetworkBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         //when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
-        {
-            readyToJump = false;
+        // if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        // {
+        //     readyToJump = false;
 
-            Jump();
+        //     Jump();
 
-            Invoke(nameof(ResetJump), jumpCooldown);
-        }
+        //     Invoke(nameof(ResetJump), jumpCooldown);
+        // }
     }
 
     private void MovePlayer()
