@@ -25,6 +25,7 @@ public class Shoot : NetworkBehaviour
     private void ShootServerRpc()
     {
         GameObject go = Instantiate(bullet, shootTransform.position, shootTransform.rotation);
+        spawnedBullets.Add(go);
         go.GetComponent<Bullet>().parent = this;
         go.GetComponent<NetworkObject>().Spawn(); //syncing gameobject to both host and clients
     }
