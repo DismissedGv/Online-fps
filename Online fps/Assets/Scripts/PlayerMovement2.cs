@@ -36,4 +36,12 @@ public class PlayerMovement2 : NetworkBehaviour
         transform.position = new Vector3(Random.Range(positionRange, -positionRange), 0, Random.Range(positionRange, -positionRange));
         transform.rotation = new Quaternion(0, Random.Range(0, 180), 0, 0);
     }
+
+    private void OnCollideEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            gameObject.transform.position = new Vector3 (0, 0, 0);
+        }
+    }
 }
