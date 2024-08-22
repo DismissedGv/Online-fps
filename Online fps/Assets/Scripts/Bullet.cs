@@ -22,6 +22,8 @@ public class Bullet : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Player"))
+        { other.GetComponent<PlayerMovement2>().ResetPlayerPositionServerRpc(); }
         if (!IsOwner) return;
         parent.DestroyServerRpc();
     }

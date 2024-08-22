@@ -37,11 +37,9 @@ public class PlayerMovement2 : NetworkBehaviour
         transform.rotation = new Quaternion(0, Random.Range(0, 180), 0, 0);
     }
 
-    private void OnCollideEnter(Collider other)
+    [ServerRpc(RequireOwnership = false)]
+    public void ResetPlayerPositionServerRpc()
     {
-        if (other.CompareTag("Bullet"))
-        {
-            gameObject.transform.position = new Vector3 (0, 0, 0);
-        }
+        transform.position = new Vector3(0, 0, 0);
     }
 }
