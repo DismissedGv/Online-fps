@@ -11,13 +11,14 @@ public class Bullet : NetworkBehaviour
     {
         //Reference
         rb = GetComponent<Rigidbody>();
-        if(IsServer && IsSpawned)
-        { Invoke(nameof(DestroyServerRpc), 3.5f); }
+        if (IsServer && IsSpawned)
+        {
+            Invoke(nameof(DestroyServerRpc), 3.5f);
+        }
     }
 
     void Update()
     {
-        //Move the fireball forward based on the player facing direction
         rb.velocity = rb.transform.forward * shootForce;
     }
 
@@ -27,12 +28,16 @@ public class Bullet : NetworkBehaviour
         NetworkObject.Despawn(true);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if(!IsServer) { return;}
-        if (parent.gameObject == other.gameObject) return;
-        if (other.CompareTag("Player"))
-        { other.GetComponent<PlayerMovement2>().ResetPlayerPosition(); }
-        if(IsSpawned) DestroyServerRpc();
+        if (!IsServer || !IsSpawned)
+        {
+            return;
+        }
+        if (other.gameObject.CompareTag("Player") && parent.gameObject != other.gameObject)
+        {
+            other.gameObject.GetComponent<PlayerMovement2>().ResetPlayerPosition();
+        }
+        DestroyServerRpc();
     }
 }

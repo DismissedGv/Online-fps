@@ -10,14 +10,14 @@ public class Shoot : NetworkBehaviour
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform shootTransform;
 
-    [SerializeField] private List<GameObject> spawnedBullets = new List<GameObject>();
-
     void Update()
     {
-        if (!IsLocalPlayer) return;
-        if (Input.GetKeyDown(shootKey))
+        if (IsLocalPlayer)
         {
-            ShootServerRpc();
+            if (Input.GetKeyDown(shootKey))
+            {
+                ShootServerRpc();
+            }
         }
     }
 
@@ -26,6 +26,6 @@ public class Shoot : NetworkBehaviour
     {
         GameObject go = Instantiate(bullet, shootTransform.position, shootTransform.rotation);
         go.GetComponent<Bullet>().parent = this;
-        go.GetComponent<NetworkObject>().Spawn(); //syncing gameobject to both host and clients
+        go.GetComponent<NetworkObject>().Spawn();
     }
 }
