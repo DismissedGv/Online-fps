@@ -11,7 +11,8 @@ public class Bullet : NetworkBehaviour
     {
         //Reference
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, 3.5f);
+        if(IsServer && IsSpawned)
+        { Invoke(nameof(DestroyServerRpc), 3.5f); }
     }
 
     void Update()
@@ -20,11 +21,18 @@ public class Bullet : NetworkBehaviour
         rb.velocity = rb.transform.forward * shootForce;
     }
 
+    [ServerRpc]
+    public void DestroyServerRpc()
+    {
+        NetworkObject.Despawn(true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        if(!IsServer) { return;}
+        if (parent.gameObject == other.gameObject) return;
         if (other.CompareTag("Player"))
-        { other.GetComponent<PlayerMovement2>().ResetPlayerPositionServerRpc(); }
-        if (!IsOwner) return;
-        parent.DestroyServerRpc();
+        { other.GetComponent<PlayerMovement2>().ResetPlayerPosition(); }
+        if(IsSpawned) DestroyServerRpc();
     }
 }

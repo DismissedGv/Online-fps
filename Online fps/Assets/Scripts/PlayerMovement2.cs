@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement2 : NetworkBehaviour
@@ -7,21 +8,39 @@ public class PlayerMovement2 : NetworkBehaviour
     [SerializeField] private float rotationSpeed = 500f;
     [SerializeField] private float positionRange = 5f;
 
-    public override void OnNetworkSpawn()
+    private Vector3 move2;
+    private Rigidbody rb;
+    private float maxSpeed = 50f;
+
+    private void Start()
     {
-        UpdatePositionServerRpc();
+        if(!IsServer) return;
+        rb = GetComponent<Rigidbody>();
+        Vector2 startPos = Random.insideUnitCircle * positionRange;
+        transform.position = startPos;
+
+        float startRot = Random.Range(0, 180);
+        transform.rotation = Quaternion.Euler(0, startRot, 0);
+    }
+
+    void FixedUpdate()
+    {
+        if(!IsServer) return;
+        rb.AddForce(move2 * movementSpeed);
     }
 
     void Update()
     {
-        if (!IsOwner) return;
+        if (!IsLocalPlayer) return;
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
         movementDirection.Normalize();
 
-        transform.Translate(movementDirection * movementSpeed * Time.deltaTime, Space.World);
+        //transform.Translate(movementDirection * movementSpeed * Time.deltaTime, Space.World);
+
+        MovePlayerServerRpc(movementDirection);
 
         if (movementDirection != Vector3.zero)
         {
@@ -30,15 +49,13 @@ public class PlayerMovement2 : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void UpdatePositionServerRpc()
+    [ServerRpc]
+    private void MovePlayerServerRpc(Vector3 move)
     {
-        transform.position = new Vector3(Random.Range(positionRange, -positionRange), 0, Random.Range(positionRange, -positionRange));
-        transform.rotation = new Quaternion(0, Random.Range(0, 180), 0, 0);
+        move2 = move;
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ResetPlayerPositionServerRpc()
+    public void ResetPlayerPosition()
     {
         transform.position = new Vector3(0, 0, 0);
     }
